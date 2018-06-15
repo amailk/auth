@@ -15,17 +15,33 @@ class LoginForm extends Component {
     //returns a promise that handles some amount of asyncrhonous code.
     //make use of the promise - get notified when request is complete.
     firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
       //if request fails, then we enter this function
       //to the catch statement. inside here we start going down the
       //error chain(in notes)
       .catch(() => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-        .catch(() => {
-        //show error message on screen.
-          this.setState({ error: 'Authentication Failed.' });
-        });
+        .then(this.onLoginSuccess.bind(this))
+        .catch(this.onLoginFail.bind(this));
       });
   }
+  onLoginFail() {
+    this.setState({
+      error: 'Authentication Failed.',
+      loading: false
+    });
+  }
+  //what to do if login is successful.
+  //update state object(clear email and pass),hide spinner,zero out error.
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password:'',
+      loading: false,
+      error: ''
+    });
+  }
+
 
   renderButton() {
     if (this.state.loading) {
