@@ -1,12 +1,15 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const Input = ({ label, value, onChangeText }) => {
+const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
   return (
     <View style={containerStyle}>
       <Text style={labelStyle}>{label}</Text>
       <TextInput
+        //secure text entry = hide password ****
+        secureTextEntry={secureTextEntry}
+        placeholder={placeholder}
         autoCorrect={false}
         style={inputStyle}
         value={value}
@@ -21,7 +24,7 @@ const styles = {
     color: '#000',
     paddingRight: 5,
     paddingLeft: 5,
-    fontSize:23,
+    fontSize:18,
     lineHeight: 23,
     //input and text are siblings. flex allocates/proportion space
     //available for each one. 2 + 1 = 3, 2/3 input style. 1/3 = label style.
